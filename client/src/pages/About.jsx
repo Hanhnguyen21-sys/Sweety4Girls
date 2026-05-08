@@ -91,7 +91,6 @@ function About() {
               Have a question?
             </h2>
 
-            {/* ✅ Bỏ <form>, dùng <div> để tránh browser tự GET */}
             <div className="mt-10">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
@@ -139,7 +138,6 @@ function About() {
                 </p>
               )}
 
-              {/* ✅ type="button" để không trigger form submit */}
               <button
                 type="button"
                 onClick={handleContactSubmit}

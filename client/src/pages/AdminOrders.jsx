@@ -34,7 +34,41 @@ function AdminOrders() {
       setLoading(false);
     }
   };
+  const getPaymentStatusColor = (status) => {
+    switch (status) {
+      case "paid":
+        return "bg-green-100 text-green-700 border-green-300";
 
+      case "failed":
+        return "bg-red-100 text-red-700 border-red-300";
+
+      case "refunded":
+        return "bg-purple-100 text-purple-700 border-purple-300";
+
+      default:
+        return "bg-yellow-100 text-yellow-700 border-yellow-300";
+    }
+  };
+
+  const getOrderStatusColor = (status) => {
+    switch (status) {
+      case "completed":
+      case "shipped":
+        return "bg-green-100 text-green-700 border-green-300";
+
+      case "cancelled":
+        return "bg-red-100 text-red-700 border-red-300";
+
+      case "making":
+        return "bg-yellow-100 text-yellow-700 border-yellow-300";
+
+      case "accepted":
+        return "bg-blue-100 text-blue-700 border-blue-300";
+
+      default:
+        return "bg-gray-100 text-gray-700 border-gray-300";
+    }
+  };
   useEffect(() => {
     const delaySearch = setTimeout(() => {
       fetchOrders();
@@ -201,7 +235,7 @@ function AdminOrders() {
                           onChange={(e) =>
                             updatePayment(order._id, e.target.value)
                           }
-                          className="rounded-lg border px-3 py-2"
+                          className={`rounded-lg border px-3 py-2 font-semibold ${getPaymentStatusColor(order.paymentStatus)}`}
                         >
                           <option value="pending">Pending</option>
                           <option value="paid">Paid</option>
@@ -216,7 +250,7 @@ function AdminOrders() {
                           onChange={(e) =>
                             updateStatus(order._id, e.target.value)
                           }
-                          className="rounded-lg border px-3 py-2"
+                          className={`rounded-lg border px-3 py-2 font-semibold ${getOrderStatusColor(order.status)}`}
                         >
                           <option value="pending">Pending</option>
                           <option value="accepted">Accepted</option>
