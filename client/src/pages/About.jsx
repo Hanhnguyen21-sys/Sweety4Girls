@@ -1,6 +1,6 @@
 import { useState } from "react";
 function About() {
-  const CONTACT_URL = `${import.meta.env.VITE_API_URL}api/contact`;
+  const CONTACT_URL = `${import.meta.env.VITE_API_URL}/contact`;
 
   const [contactForm, setContactForm] = useState({
     name: "",
