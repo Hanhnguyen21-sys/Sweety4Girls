@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import AdminNavbar from "../components/AdminNavBar";
-const API_URL = "http://localhost:5000/api/orders";
+const API_URL = `${import.meta.env.VITE_API_URL}/orders`;
 
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
@@ -12,7 +12,7 @@ function AdminOrders() {
   const fetchOrders = async () => {
     const token = localStorage.getItem("adminToken");
 
-    const res = await fetch("http://localhost:5001/api/orders", {
+    const res = await fetch(`${API_URL}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -58,17 +58,14 @@ function AdminOrders() {
   const updateStatus = async (orderId, status) => {
     const token = localStorage.getItem("adminToken");
 
-    const res = await fetch(
-      `http://localhost:5001/api/orders/${orderId}/status`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ status }),
+    const res = await fetch(`${API_URL}/${orderId}/status`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    );
+      body: JSON.stringify({ status }),
+    });
 
     const data = await res.json();
 

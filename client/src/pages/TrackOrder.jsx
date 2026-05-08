@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+const API_URL = import.meta.env.VITE_API_URL;
 function TrackOrder() {
   const [form, setForm] = useState({
     orderCode: "",
@@ -25,7 +25,7 @@ function TrackOrder() {
     setOrder(null);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/orders/track", {
+      const res = await axios.post(`${API_URL}/orders/track`, {
         orderCode: form.orderCode,
         email: form.email,
       });
@@ -38,9 +38,7 @@ function TrackOrder() {
   };
   const confirmCancelOrder = async () => {
     try {
-      const res = await axios.put(
-        `http://localhost:5000/api/orders/${order._id}/cancel`,
-      );
+      const res = await axios.put(`${API_URL}/orders/${order._id}/cancel`);
 
       setOrder(res.data);
 
