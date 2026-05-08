@@ -17,7 +17,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://sweety4-girls.vercel.app/products",
+      "https://sweety4-girls.vercel.app",
     ],
     credentials: true,
   })
