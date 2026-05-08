@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 function About() {
   const CONTACT_URL = `${import.meta.env.VITE_API_URL}/contact`;
 
@@ -19,13 +20,17 @@ function About() {
     });
   };
 
-  const handleContactSubmit = async (e) => {
-    e.preventDefault();
-
+  // ✅ Không dùng e.preventDefault() nữa vì button type="button"
+  const handleContactSubmit = async () => {
     try {
       setContactLoading(true);
       setContactSuccess("");
       setContactError("");
+
+      console.log("Sending to:", CONTACT_URL); // debug
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000); // timeout 15s
 
       const res = await fetch(CONTACT_URL, {
         method: "POST",
@@ -33,7 +38,10 @@ function About() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(contactForm),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeout);
 
       const data = await res.json();
 
@@ -42,13 +50,16 @@ function About() {
       }
 
       setContactSuccess("Message sent successfully!");
-      setContactForm({
-        name: "",
-        email: "",
-        message: "",
-      });
+      setContactForm({ name: "", email: "", message: "" });
     } catch (error) {
-      setContactError(error.message);
+      console.error("Contact error:", error); // debug
+      if (error.name === "AbortError") {
+        setContactError(
+          "Request timed out. Server may be waking up, please try again.",
+        );
+      } else {
+        setContactError(error.message || "Something went wrong.");
+      }
     } finally {
       setContactLoading(false);
     }
@@ -68,7 +79,7 @@ function About() {
 
       {/* ABOUT CONTENT */}
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-3xl font-bold text-accent">Hi there 👋 </h2>
+        <h2 className="text-3xl font-bold text-accent">Hi there 👋</h2>
 
         <div className="mt-8 space-y-6 text-lg leading-8 text-neutral">
           <p>
@@ -76,7 +87,6 @@ function About() {
             and creativity. We offer crochet flower bouquets, cute accessories,
             cozy decorations, and meaningful gifts for special moments.
           </p>
-
           <p>
             Since 2026, our crochet shop has been a sweet pink space full of
             cute, soft, and girly handmade items. Every piece is made with care,
@@ -85,10 +95,9 @@ function About() {
             keychains to clothes and bags, everything is crafted by hand with
             love.
           </p>
-
           <p>
-            Our shop follows the quote: “Best quality–Warmsupport–Wholehearted
-            service.” This is how we work and how we care for every customer.
+            Our shop follows the quote: "Best quality–Warmsupport–Wholehearted
+            service." This is how we work and how we care for every customer.
           </p>
         </div>
       </section>
@@ -105,46 +114,39 @@ function About() {
             />
           </div>
 
-          {/* CONTACT INFO */}
-
+          {/* CONTACT FORM */}
           <div className="flex flex-col justify-center bg-cream p-8 md:p-10">
             <p className="text-sm uppercase tracking-[0.3em] text-accent">
               Contact Us
             </p>
-
             <h2 className="mt-4 text-3xl font-bold text-dark">
               Have a question?
             </h2>
 
-            <form onSubmit={handleContactSubmit} className="mt-10">
+            <div className="mt-10">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-xs font-bold uppercase tracking-[0.25em] text-neutral">
-                    Name
+                    Name *
                   </label>
-
                   <input
                     type="text"
                     name="name"
                     value={contactForm.name}
                     onChange={handleContactChange}
                     className="mt-2 w-full border border-neutral bg-white px-4 py-3 outline-none focus:border-accent"
-                    required
                   />
                 </div>
-
                 <div>
                   <label className="text-xs font-bold uppercase tracking-[0.25em] text-neutral">
                     Email *
                   </label>
-
                   <input
                     type="email"
                     name="email"
                     value={contactForm.email}
                     onChange={handleContactChange}
                     className="mt-2 w-full border border-neutral bg-white px-4 py-3 outline-none focus:border-accent"
-                    required
                   />
                 </div>
               </div>
@@ -153,14 +155,12 @@ function About() {
                 <label className="text-xs font-bold uppercase tracking-[0.25em] text-neutral">
                   Message *
                 </label>
-
                 <textarea
                   name="message"
                   rows="5"
                   value={contactForm.message}
                   onChange={handleContactChange}
                   className="mt-2 w-full border border-neutral bg-white px-4 py-3 outline-none focus:border-accent"
-                  required
                 />
               </div>
 
@@ -177,13 +177,14 @@ function About() {
               )}
 
               <button
-                type="submit"
+                type="button"
+                onClick={handleContactSubmit}
                 disabled={contactLoading}
                 className="mt-5 w-full rounded-full bg-[#EADAD4] py-4 text-sm font-semibold uppercase tracking-[0.25em] text-dark transition hover:bg-accent hover:text-white disabled:opacity-50"
               >
                 {contactLoading ? "Sending..." : "Send Message"}
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </section>
