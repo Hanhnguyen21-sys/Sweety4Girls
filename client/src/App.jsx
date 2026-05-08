@@ -10,6 +10,8 @@ import Checkout from "./pages/Checkout";
 import TrackOrder from "./pages/TrackOrder";
 import AdminOrders from "./pages/AdminOrders";
 import AdminLogin from "./pages/AdminLogin";
+import AdminNavbar from "./components/AdminNavBar";
+import AdminProducts from "./pages/AdminProducts";
 function App() {
   const location = useLocation();
 
@@ -32,6 +34,7 @@ function App() {
         {/* ADMIN */}
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/orders" element={<AdminOrders />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
       </Routes>
     </>
   );
