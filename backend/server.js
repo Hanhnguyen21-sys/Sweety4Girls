@@ -11,7 +11,12 @@ import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 dotenv.config();
 const app = express();
-
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "https://sweety4-girls.vercel.app",
+  "https://sweety4-girls-rlpayz0oj-hanhnguyen21-sys-projects.vercel.app",
+];
 //Middleware
 app.use(
   cors({
