@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AdminNavbar from "../components/AdminNavBar";
+import AdminNavbar from "../components/AdminNavbar";
 const API_URL = `${import.meta.env.VITE_API_URL}/orders`;
 
 function AdminOrders() {

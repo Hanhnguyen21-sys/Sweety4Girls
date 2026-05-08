@@ -17,20 +17,16 @@ function AdminNavbar() {
       </Link>
 
       <ul className="hidden md:flex gap-10 text-base md:text-lg font-semibold uppercase">
-        <Link to="/">
-          <li className="hover:text-white transition">Home</li>
+        <Link to="/admin/orders">
+          <li className="hover:text-white transition">Orders</li>
         </Link>
 
-        <Link to="/about">
-          <li className="hover:text-white transition">About</li>
-        </Link>
-
-        <Link to="/products">
+        <Link to="/admin/products">
           <li className="hover:text-white transition">Products</li>
         </Link>
 
-        <Link to="/admin/orders">
-          <li className="hover:text-white transition">Orders</li>
+        <Link to="/">
+          <li className="hover:text-white transition">View Store</li>
         </Link>
       </ul>
 
