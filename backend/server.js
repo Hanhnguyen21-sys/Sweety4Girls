@@ -11,29 +11,16 @@ import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 dotenv.config();
 const app = express();
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  "https://sweety4-girls.vercel.app",
-  "https://sweety4-girls-rlpayz0oj-hanhnguyen21-sys-projects.vercel.app",
-];
+
 //Middleware
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (
-        !origin ||
-        allowedOrigins.includes(origin) ||
-        origin.endsWith(".vercel.app")
-      ) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: [
+      "http://localhost:5173",
+      "https://sweety4-girls.vercel.app",
+    ],
     credentials: true,
-  })
-);
+  }));
 app.use(express.json());
 
 

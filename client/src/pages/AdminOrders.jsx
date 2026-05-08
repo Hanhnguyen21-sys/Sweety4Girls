@@ -10,21 +10,29 @@ function AdminOrders() {
   const [showModal, setShowModal] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const fetchOrders = async () => {
-    const token = localStorage.getItem("adminToken");
+    try {
+      setLoading(true);
 
-    const res = await fetch(`${API_URL}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const token = localStorage.getItem("adminToken");
 
-    const data = await res.json();
+      const res = await fetch(API_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch orders");
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to fetch orders");
+      }
+
+      setOrders(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-
-    return data;
   };
 
   useEffect(() => {
