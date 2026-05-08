@@ -2,7 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Products from "./pages/Products";
-// import About from "./pages/About";
+import About from "./pages/About";
 import Cart from "./pages/Cart";
 import ProductDetail from "./pages/ProductDetail";
 import Navbar from "./components/Navbar";
@@ -12,6 +12,7 @@ import AdminOrders from "./pages/AdminOrders";
 import AdminLogin from "./pages/AdminLogin";
 import AdminNavbar from "./components/AdminNavbar";
 import AdminProducts from "./pages/AdminProducts";
+import Footer from "./components/Footer";
 function App() {
   const location = useLocation();
 
@@ -24,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
-        {/* <Route path="/about" element={<About />} /> */}
+        <Route path="/about" element={<About />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/products/:id" element={<ProductDetail />} />
@@ -35,6 +36,7 @@ function App() {
         <Route path="/admin/orders" element={<AdminOrders />} />
         <Route path="/admin/products" element={<AdminProducts />} />
       </Routes>
+      {!hideNavbar && <Footer />}
     </>
   );
 }

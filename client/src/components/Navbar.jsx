@@ -17,9 +17,9 @@ function Navbar() {
           <li className="cursor-pointer hover:text-white transition">Home</li>
         </Link>
 
-        {/* <Link to="/about">
+        <Link to="/about">
           <li className="cursor-pointer hover:text-white transition">About</li>
-        </Link> */}
+        </Link>
 
         <Link to="/products">
           <li className="cursor-pointer hover:text-white transition">
