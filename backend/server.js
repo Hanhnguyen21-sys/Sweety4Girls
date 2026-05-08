@@ -11,6 +11,7 @@ import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import adminProductRoutes from "./routes/adminProductRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import adminOrderRoutes from "./routes/adminOrderRoutes.js";
 dotenv.config();
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/contact", contactRoutes);
+app.use("/api/orders", adminOrderRoutes);
 const PORT = process.env.PORT || 5000;
 // connect DB + start server
 mongoose

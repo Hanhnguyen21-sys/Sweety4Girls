@@ -1,68 +1,36 @@
 import { useState } from "react";
 
-function About() {
-  const CONTACT_URL = `${import.meta.env.VITE_API_URL}/contact`;
+const SHOP_EMAIL = "sweety4girls.hm@gmail.com";
 
+function About() {
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const [contactLoading, setContactLoading] = useState(false);
-  const [contactSuccess, setContactSuccess] = useState("");
   const [contactError, setContactError] = useState("");
 
   const handleContactChange = (e) => {
-    setContactForm({
-      ...contactForm,
-      [e.target.name]: e.target.value,
-    });
+    setContactForm({ ...contactForm, [e.target.name]: e.target.value });
   };
 
-  // ✅ Không dùng e.preventDefault() nữa vì button type="button"
-  const handleContactSubmit = async () => {
-    try {
-      setContactLoading(true);
-      setContactSuccess("");
-      setContactError("");
+  const handleContactSubmit = () => {
+    const { name, email, message } = contactForm;
 
-      console.log("Sending to:", CONTACT_URL); // debug
-
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000); // timeout 15s
-
-      const res = await fetch(CONTACT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(contactForm),
-        signal: controller.signal,
-      });
-
-      clearTimeout(timeout);
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to send message.");
-      }
-
-      setContactSuccess("Message sent successfully!");
-      setContactForm({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error("Contact error:", error); // debug
-      if (error.name === "AbortError") {
-        setContactError(
-          "Request timed out. Server may be waking up, please try again.",
-        );
-      } else {
-        setContactError(error.message || "Something went wrong.");
-      }
-    } finally {
-      setContactLoading(false);
+    if (!name || !email || !message) {
+      setContactError("Please fill in all fields.");
+      return;
     }
+
+    setContactError("");
+
+    const subject = encodeURIComponent(`New message from ${name}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+    );
+
+    window.location.href = `mailto:${SHOP_EMAIL}?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -123,6 +91,7 @@ function About() {
               Have a question?
             </h2>
 
+            {/* ✅ Bỏ <form>, dùng <div> để tránh browser tự GET */}
             <div className="mt-10">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
@@ -164,25 +133,20 @@ function About() {
                 />
               </div>
 
-              {contactSuccess && (
-                <p className="mt-4 rounded-xl bg-green-50 px-4 py-3 text-sm text-green-700">
-                  {contactSuccess}
-                </p>
-              )}
-
               {contactError && (
                 <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
                   {contactError}
                 </p>
               )}
 
+              {/* ✅ type="button" để không trigger form submit */}
               <button
                 type="button"
                 onClick={handleContactSubmit}
                 disabled={contactLoading}
                 className="mt-5 w-full rounded-full bg-[#EADAD4] py-4 text-sm font-semibold uppercase tracking-[0.25em] text-dark transition hover:bg-accent hover:text-white disabled:opacity-50"
               >
-                {contactLoading ? "Sending..." : "Send Message"}
+                Send Message
               </button>
             </div>
           </div>

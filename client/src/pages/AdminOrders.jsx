@@ -45,55 +45,86 @@ function AdminOrders() {
 
   const updatePayment = async (orderId, paymentStatus) => {
     try {
+      const token = localStorage.getItem("adminToken");
+
       const res = await fetch(`${API_URL}/${orderId}/payment`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ paymentStatus }),
       });
 
       const updatedOrder = await res.json();
 
+      if (!res.ok) {
+        throw new Error(updatedOrder.message || "Failed to update payment");
+      }
+
       setOrders((prev) =>
         prev.map((order) => (order._id === orderId ? updatedOrder : order)),
       );
     } catch (error) {
       console.error("Failed to update payment:", error);
+      alert(error.message);
     }
   };
 
   const updateStatus = async (orderId, status) => {
-    const token = localStorage.getItem("adminToken");
+    try {
+      const token = localStorage.getItem("adminToken");
 
-    const res = await fetch(`${API_URL}/${orderId}/status`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ status }),
-    });
+      const res = await fetch(`${API_URL}/${orderId}/status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      });
 
-    const data = await res.json();
+      const updatedOrder = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to update order");
+      if (!res.ok) {
+        throw new Error(updatedOrder.message || "Failed to update order");
+      }
+
+      setOrders((prev) =>
+        prev.map((order) => (order._id === orderId ? updatedOrder : order)),
+      );
+
+      if (selectedOrder?._id === orderId) {
+        setSelectedOrder(updatedOrder);
+      }
+    } catch (error) {
+      console.error("Failed to update status:", error);
+      alert(error.message);
     }
-
-    return data;
   };
   const openOrderDetail = async (orderId) => {
     try {
       setDetailLoading(true);
       setShowModal(true);
 
-      const res = await fetch(`${API_URL}/${orderId}`);
+      const token = localStorage.getItem("adminToken");
+
+      const res = await fetch(`${API_URL}/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to fetch order detail");
+      }
 
       setSelectedOrder(data);
     } catch (error) {
       console.error("Failed to fetch order detail:", error);
+      alert(error.message);
     } finally {
       setDetailLoading(false);
     }
