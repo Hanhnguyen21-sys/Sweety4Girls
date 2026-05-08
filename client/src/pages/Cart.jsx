@@ -36,7 +36,7 @@ function Cart() {
                 <div key={item._id}>
                   <div className="grid gap-5 md:grid-cols-[120px_1fr_auto_auto] md:items-center">
                     <img
-                      src={item.image}
+                      src={item.image || item.images?.[0]}
                       alt={item.name}
                       className="h-28 w-28 rounded-xl object-cover"
                     />

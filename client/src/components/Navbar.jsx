@@ -8,7 +8,7 @@ function Navbar() {
     <nav className="flex items-center justify-between px-8 py-5 bg-accent text-soft">
       {/* Logo */}
       <div className="text-2xl md:text-2xl font-bold tracking-wider">
-        SWEETYGIRLS
+        SWEETY4GIRLS
       </div>
 
       {/* Menu */}
@@ -17,9 +17,9 @@ function Navbar() {
           <li className="cursor-pointer hover:text-white transition">Home</li>
         </Link>
 
-        <Link to="/about">
+        {/* <Link to="/about">
           <li className="cursor-pointer hover:text-white transition">About</li>
-        </Link>
+        </Link> */}
 
         <Link to="/products">
           <li className="cursor-pointer hover:text-white transition">
@@ -35,7 +35,7 @@ function Navbar() {
 
       {/* Icons */}
       <div className="flex gap-6">
-        <User className="w-6 h-6 cursor-pointer hover:text-white transition" />
+        {/* <User className="w-6 h-6 cursor-pointer hover:text-white transition" /> */}
         <Link to="/cart" className="relative">
           <ShoppingCart className="h-6 w-6 cursor-pointer transition hover:text-white" />
 
