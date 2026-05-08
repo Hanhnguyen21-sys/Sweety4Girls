@@ -29,7 +29,6 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/products/:id" element={<ProductDetail />} />
         <Route path="/track-order" element={<TrackOrder />} />
-        <Route path="/admin/orders" element={<AdminOrders />} />
 
         {/* ADMIN */}
         <Route path="/admin/login" element={<AdminLogin />} />
