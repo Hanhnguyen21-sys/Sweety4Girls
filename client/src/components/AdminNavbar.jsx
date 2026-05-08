@@ -1,4 +1,4 @@
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, ExternalLink } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 
 function AdminNavbar() {
@@ -25,9 +25,15 @@ function AdminNavbar() {
           <li className="hover:text-white transition">Products</li>
         </Link>
 
-        <Link to="/">
-          <li className="hover:text-white transition">View Store</li>
-        </Link>
+        <a
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-1 hover:text-white transition"
+        >
+          <li>View Store</li>
+          <ExternalLink size={14} />
+        </a>
       </ul>
 
       <button
