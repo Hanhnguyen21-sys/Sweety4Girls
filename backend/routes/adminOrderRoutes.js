@@ -1,6 +1,6 @@
 // routes/adminOrderRoutes.js
 import express from "express";
-import Order from "../models/orderModel.js";
+import Order from "../models/Order.js";
 import { protectAdmin } from "../middleware/adminAuthMiddleware.js";
 import { restoreOrderStock } from "../utils/restoreOrderStock.js";
 
