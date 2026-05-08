@@ -15,10 +15,17 @@ const app = express();
 //Middleware
 app.use(
   cors({
-    origin: [
-      "http://localhost:5174",
-      "https://sweety4-girls.vercel.app",
-    ],
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app")
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
