@@ -10,7 +10,7 @@ import Checkout from "./pages/Checkout";
 import TrackOrder from "./pages/TrackOrder";
 import AdminOrders from "./pages/AdminOrders";
 import AdminLogin from "./pages/AdminLogin";
-import AdminNavbar from "./components/AdminNavBar";
+import AdminNavbar from "./components/AdminNavbar";
 import AdminProducts from "./pages/AdminProducts";
 function App() {
   const location = useLocation();
