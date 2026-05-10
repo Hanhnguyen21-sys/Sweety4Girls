@@ -10,6 +10,7 @@ function About() {
   });
 
   const [contactError, setContactError] = useState("");
+  const [contactLoading, setContactLoading] = useState(false);
 
   const handleContactChange = (e) => {
     setContactForm({ ...contactForm, [e.target.name]: e.target.value });
