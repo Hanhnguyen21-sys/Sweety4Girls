@@ -13,7 +13,7 @@ function ProductCard({ product }) {
     : imageUrl;
 
   return (
-    <div className="group overflow-hidden rounded-2xl bg-white shadow-md transition hover:shadow-xl">
+    <div className="group overflow-hidden rounded-2xl bg-white shadow-md transition md:hover:shadow-xl">
       <Link to={`/products/${product._id}`}>
         <div className="aspect-[4/3] w-full overflow-hidden rounded-t-2xl bg-white">
           <img
@@ -21,7 +21,9 @@ function ProductCard({ product }) {
             alt={product.name}
             loading="lazy"
             decoding="async"
-            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-125"
+            width="600"
+            height="450"
+            className="h-full w-full object-cover object-center transition-transform duration-300 md:group-hover:scale-110"
           />
         </div>
 
