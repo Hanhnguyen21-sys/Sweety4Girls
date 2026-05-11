@@ -52,9 +52,10 @@ function About() {
 
         <div className="mt-8 space-y-6 text-lg leading-8 text-neutral">
           <p>
-            SWEETY4GIRLS is a handmade crochet shop created with love, patience,
-            and creativity. We offer crochet flower bouquets, cute accessories,
-            cozy decorations, and meaningful gifts for special moments.
+            SWEETYGIRLSHandmade is a handmade crochet shop created with love,
+            patience, and creativity. We offer crochet flower bouquets, cute
+            accessories, cozy decorations, and meaningful gifts for special
+            moments.
           </p>
           <p>
             Since 2026, our crochet shop has been a sweet pink space full of

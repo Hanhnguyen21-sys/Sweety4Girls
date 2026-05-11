@@ -11,7 +11,7 @@ function Navbar() {
   return (
     <nav className="relative flex items-center justify-between px-8 py-5 bg-accent text-soft">
       {/* Logo */}
-      <div className="text-2xl font-bold tracking-wider">SWEETY4GIRLS</div>
+      <div className="text-2xl font-bold tracking-wider">SWEETYGIRLS</div>
 
       {/* Desktop menu */}
       <ul className="hidden md:flex gap-10 text-base md:text-lg font-semibold uppercase">

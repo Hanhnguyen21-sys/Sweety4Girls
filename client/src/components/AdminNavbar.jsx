@@ -14,7 +14,7 @@ function AdminNavbar() {
   return (
     <nav className="flex items-center justify-between px-8 py-5 bg-accent text-soft">
       <Link to="/admin/orders" className="text-2xl font-bold tracking-wider">
-        SWEETY4GIRLS
+        SWEETYGIRLS
       </Link>
 
       <ul className="hidden md:flex gap-10 text-base md:text-lg font-semibold uppercase">

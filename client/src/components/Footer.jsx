@@ -7,9 +7,14 @@ function Footer() {
       <div className="mx-auto grid max-w-7xl gap-12 px-6 py-14 md:grid-cols-3">
         {/* BRAND */}
         <div>
-          <h2 className="text-3xl font-bold tracking-widest text-accent">
-            SWEETY4GIRLS
-          </h2>
+          {/* <h2 className="text-3xl font-bold tracking-widest text-accent">
+            SWEETYGIRLSHANDMADES
+          </h2> */}
+          <img
+            src="/images/logo.png"
+            alt="SWEETYGIRLSHANDMADES"
+            className="h-20 w-auto object-contain"
+          />
 
           <p className="mt-5 leading-7 text-neutral">
             Handmade crochet flowers, bouquets, bags, and gifts crafted with
@@ -93,7 +98,7 @@ function Footer() {
       <div className="border-t border-[#d8c0b6] px-6 py-5 text-center text-sm text-neutral">
         <p className="flex items-center justify-center gap-2">
           Made with <Heart size={16} className="fill-accent text-accent" />
-          by SWEETY4GIRLS © 2026
+          by SWEETYGIRLSHANDMADE © 2026
         </p>
       </div>
     </footer>
