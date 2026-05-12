@@ -53,7 +53,7 @@ function Home() {
 
           <div className="flex justify-center">
             <img
-              src={featuredProducts[0]?.images?.[0] || "/images/yellow.png"}
+              src="/images/pink.JPG"
               alt="Crochet flowers"
               className="h-72 w-72 rounded-3xl object-cover md:h-80 md:w-80"
             />

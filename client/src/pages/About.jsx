@@ -39,7 +39,7 @@ function About() {
       {/* HEADER */}
       <section className="bg-[#EADAD4] px-6 py-16 text-center text-dark">
         <h1 className="text-4xl font-bold tracking-widest md:text-5xl">
-          About Shop
+          About Us
         </h1>
         <p className="mt-4 text-sm uppercase tracking-[0.3em] opacity-90">
           Handmade with love
@@ -52,7 +52,7 @@ function About() {
 
         <div className="mt-8 space-y-6 text-lg leading-8 text-neutral">
           <p>
-            SWEETYGIRLSHandmade is a handmade crochet shop created with love,
+            SWEETYGIRLSHANDMADE is a handmade crochet shop created with love,
             patience, and creativity. We offer crochet flower bouquets, cute
             accessories, cozy decorations, and meaningful gifts for special
             moments.

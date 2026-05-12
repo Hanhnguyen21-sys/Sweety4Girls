@@ -32,7 +32,7 @@ function Footer() {
             </a>
 
             <a
-              href="https://tiktok.com"
+              href="https://www.tiktok.com/@sweetygirls.handmade4"
               target="_blank"
               rel="noreferrer"
               className="transition hover:text-accent"
