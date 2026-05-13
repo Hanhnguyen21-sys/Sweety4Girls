@@ -60,7 +60,7 @@ function Cart() {
         <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
           {/* Left: Cart Items */}
           <div>
-            <div className="rounded-2xl border border-primary/40 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl border border-primary/40 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl">
               {cartItems.map((item, index) => (
                 <div key={item._id}>
                   <div className="grid gap-5 md:grid-cols-[120px_1fr_auto_auto] md:items-center">
@@ -159,7 +159,18 @@ function Cart() {
               </div>
 
               <Link to="/checkout">
-                <button className="mt-8 w-full rounded-xl bg-accent py-3 font-bold text-white transition hover:bg-neutral">
+                <button
+                  className="
+  mt-8 w-full rounded-xl
+  bg-accent py-3
+  font-bold text-white
+  transition-all duration-300
+  hover:-translate-y-1
+  hover:bg-neutral
+  hover:shadow-xl
+  active:scale-95
+"
+                >
                   Proceed to Checkout
                 </button>
               </Link>
@@ -177,7 +188,13 @@ function Cart() {
                   className="w-full rounded-xl border border-primary bg-cream px-4 py-3 outline-none focus:ring-2 focus:ring-accent"
                 />
 
-                <button className="rounded-xl bg-accent px-5 font-semibold text-white transition hover:bg-neutral">
+                <button
+                  className="rounded-xl bg-accent px-5 font-semibold text-white transition-all duration-300
+  hover:-translate-y-1
+  hover:bg-neutral
+  hover:shadow-xl
+  active:scale-95"
+                >
                   Apply
                 </button>
               </div>
