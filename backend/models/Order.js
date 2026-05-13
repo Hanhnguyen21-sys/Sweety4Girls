@@ -9,7 +9,11 @@ const orderItemSchema = new mongoose.Schema(
 
     name: String,
     image: String,
-    quantity: Number,
+    quantity: {
+  type: Number,
+  required: true,
+  min: 1,
+},
     price: Number,
     selectedColor: String,
     customNote: String
@@ -107,6 +111,10 @@ const orderSchema = new mongoose.Schema(
     },
     paidAt: Date,
   paymentNote: String,
+  stockRestored: {
+  type: Boolean,
+  default: false,
+}
   
   },
   { timestamps: true }

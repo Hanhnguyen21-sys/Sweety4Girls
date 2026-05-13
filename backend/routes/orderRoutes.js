@@ -2,9 +2,19 @@ import express from "express";
 import { protectAdmin } from "../middleware/adminAuthMiddleware.js";
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
+import mongoose from "mongoose";
 
 const router = express.Router();
 
+
+const allowedTransitions = {
+  pending: ["accepted", "cancelled"],
+  accepted: ["making", "cancelled"],
+  making: ["shipped"],
+  shipped: ["completed"],
+  completed: [],
+  cancelled: [],
+};
 function generateOrderCode() {
   const timestamp = Date.now().toString(36).toUpperCase();
   const random = Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -27,7 +37,11 @@ async function restoreOrderStock(order) {
 }
 // CHECKOUT: Takes current cart and converts to order
 router.post("/checkout", async (req, res) => {
+  const session = await mongoose.startSession();
+
   try {
+    session.startTransaction();
+
     const {
       guestId,
       customer,
@@ -36,42 +50,57 @@ router.post("/checkout", async (req, res) => {
       paymentMethod,
       note,
     } = req.body;
-
     if (!items || items.length === 0) {
-      return res.status(400).json({ message: "Cart is empty" });
-    }
+  return res.status(400).json({ message: "Cart is empty" });
+}
 
-    if (
-      !customer?.name ||
-      !customer?.email ||
-      !customer?.phone ||
-      !customer?.address
-    ) {
-      return res.status(400).json({
-        message: "Customer information is required",
-      });
-    }
-
+  if (
+    !customer?.name ||
+    !customer?.email ||
+    !customer?.phone ||
+    !customer?.address
+  ) {
+    return res.status(400).json({
+      message: "Customer information is required",
+    });
+  }
     let subtotal = 0;
     const orderItems = [];
 
     for (const item of items) {
-      const product = await Product.findById(item._id || item.productId);
+      const product = await Product.findById(
+        item._id || item.productId
+      ).session(session);
 
       if (!product || product.status !== "available") {
-        return res.status(400).json({
-          message: `${item.name} is no longer available`,
-        });
+        throw new Error(`${item.name} is no longer available`);
       }
 
-      if (item.quantity > product.stock) {
-        return res.status(400).json({
-          message: `Not enough stock for ${product.name}`,
-        });
+      const updatedProduct = await Product.findOneAndUpdate(
+        {
+          _id: product._id,
+          status: "available",
+          stock: { $gte: item.quantity },
+        },
+        {
+          $inc: { stock: -item.quantity },
+        },
+        {
+          new: true,
+          session,
+        }
+      );
+
+      if (!updatedProduct) {
+        throw new Error(`Not enough stock for ${product.name}`);
+      }
+
+      if (updatedProduct.stock === 0) {
+        updatedProduct.status = "sold_out";
+        await updatedProduct.save({ session });
       }
 
       const finalPrice = product.discountPrice || product.price;
-
       subtotal += finalPrice * item.quantity;
 
       orderItems.push({
@@ -85,49 +114,41 @@ router.post("/checkout", async (req, res) => {
       });
     }
 
-    const totalPrice = subtotal + shippingFee;
-
-    const paymentDueDate = new Date(
-      Date.now() + 7 * 24 * 60 * 60 * 1000
+    const order = await Order.create(
+      [
+        {
+          orderCode: generateOrderCode(),
+          guestId,
+          customer,
+          items: orderItems,
+          subtotal,
+          shippingFee,
+          totalPrice: subtotal + shippingFee,
+          status: "pending",
+          note,
+          paymentMethod,
+          paymentStatus: "pending",
+          paymentDueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        },
+      ],
+      { session }
     );
 
-    const order = await Order.create({
-      orderCode: generateOrderCode(),
-      guestId,
-      customer,
-      items: orderItems,
-      subtotal,
-      shippingFee,
-      totalPrice,
-      status: "pending",
-      note,
-      paymentMethod,
-      paymentStatus: "pending",
-      paymentDueDate,
-    });
-
-    for (const item of orderItems) {
-      const product = await Product.findById(item.productId);
-
-      product.stock -= item.quantity;
-
-      if (product.stock <= 0) {
-        product.stock = 0;
-        product.status = "sold_out";
-      }
-
-      await product.save();
-    }
+    await session.commitTransaction();
 
     res.status(201).json({
       message: "Order placed successfully",
-      order,
+      order: order[0],
     });
   } catch (error) {
+    await session.abortTransaction();
+
     res.status(400).json({
       message: "Checkout failed",
       error: error.message,
     });
+  } finally {
+    session.endSession();
   }
 });
 
@@ -171,11 +192,15 @@ router.put("/:orderId/cancel", async (req, res) => {
         message: "Only pending orders can be cancelled",
       });
     }
+    if (!order.stockRestored) {
+      await restoreOrderStock(order);
 
+      order.stockRestored = true;
+    }
     order.status = "cancelled";
     order.cancelledAt = new Date();
 
-    await restoreOrderStock(order);
+    
     await order.save();
 
     res.json(order);
@@ -185,6 +210,44 @@ router.put("/:orderId/cancel", async (req, res) => {
       error: error.message,
     });
   }
+
+  // avoid invalid changing state
+
+  router.put("/:id/status", protectAdmin, async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Order not found",
+      });
+    }
+
+    
+    const currentStatus = order.status;
+
+    const allowed = allowedTransitions[currentStatus];
+
+    if (!allowed.includes(status)) {
+      return res.status(400).json({
+        message: `Cannot change order from '${currentStatus}' to '${status}'`,
+      });
+    }
+
+    order.status = status;
+
+    await order.save();
+
+    res.json(order);
+  } catch (error) {
+    res.status(400).json({
+      message: "Failed to update order status",
+      error: error.message,
+    });
+  }
+});
 });
 
 

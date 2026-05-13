@@ -14,7 +14,36 @@ function Cart() {
 
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
+  if (cartItems.length === 0) {
+    return (
+      <section className="min-h-screen bg-cream px-6 py-12 animate-fadeIn">
+        <div className="mx-auto flex max-w-3xl flex-col items-center justify-center py-32 text-center">
+          <div className="mb-8 text-8xl animate-bounce">🛒</div>
 
+          <h1 className="text-4xl font-bold text-dark">Your cart is empty</h1>
+
+          <p className="mt-4 max-w-md text-lg text-neutral opacity-90">
+            Looks like you have not added any handmade treasures yet.
+          </p>
+
+          <Link
+            to="/products"
+            className="
+            mt-10 rounded-full
+            bg-accent px-8 py-4
+            font-semibold text-white
+            transition-all duration-300
+            hover:-translate-y-1
+            hover:bg-neutral
+            hover:shadow-xl
+          "
+          >
+            Start Shopping
+          </Link>
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="min-h-screen bg-cream px-6 py-12">
       <div className="mx-auto max-w-7xl">

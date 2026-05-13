@@ -42,6 +42,7 @@ const productSchema = new mongoose.Schema({
   stock: {
     type: Number,
     default: 10,
+    min: 0,
   },
 
   status: {

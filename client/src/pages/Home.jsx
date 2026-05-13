@@ -26,10 +26,14 @@ function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-cream text-dark">
+    <main
+      className="min-h-screen bg-cream text-dark "
+      style={{ fontFamily: "Poppins, sans-serif" }}
+    >
       <section className="bg-cream">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-6 py-10 md:grid-cols-2 md:py-14">
-          <div className="flex flex-col items-center text-center">
+          {/* LEFT CONTENT */}
+          <div className="flex flex-col items-center text-center animate-fadeUp">
             <p className="mb-3 text-sm font-semibold text-accent">
               Handmade Crochet Gifts
             </p>
@@ -45,23 +49,33 @@ function Home() {
 
             <Link
               to="/products"
-              className="mt-6 rounded-full bg-accent px-6 py-3 text-white hover:bg-neutral"
+              className="mt-6 rounded-full bg-accent px-6 py-3 text-white 
+                     transition-all duration-300 
+                     hover:-translate-y-1 hover:bg-neutral hover:shadow-lg"
             >
               Shop Now
             </Link>
           </div>
 
-          <div className="flex justify-center">
+          {/* IMAGE */}
+          <div className="flex justify-center animate-fadeIn">
             <img
               src="/images/pink.JPG"
               alt="Crochet flowers"
-              className="h-72 w-72 rounded-3xl object-cover md:h-80 md:w-80"
+              className="h-72 w-72 rounded-3xl object-cover 
+                     shadow-lg transition-all duration-500
+                     hover:scale-105 hover:rotate-1 hover:shadow-2xl
+                     md:h-80 md:w-80"
             />
           </div>
         </div>
       </section>
 
-      {!loading && <FeaturedProductsSlider products={featuredProducts} />}
+      {!loading && (
+        <div className="animate-fadeUpSlow">
+          <FeaturedProductsSlider products={featuredProducts} />
+        </div>
+      )}
     </main>
   );
 }

@@ -11,23 +11,43 @@ function Navbar() {
   return (
     <nav className="relative flex items-center justify-between px-8 py-5 bg-accent text-soft">
       {/* Logo */}
-      <div className="text-2xl font-bold tracking-wider">SWEETYGIRLS</div>
+      <div
+        className="text-4xl text-soft bold cursor-pointer "
+        style={{ fontFamily: "'Dancing Script', cursive" }}
+      >
+        SweetyGirls
+      </div>
 
       {/* Desktop menu */}
-      <ul className="hidden md:flex gap-10 text-base md:text-lg font-semibold uppercase">
+      <ul
+        className="
+    hidden md:flex gap-10
+    text-lg md:text-base
+    uppercase tracking-widest
+    font-bold
+  "
+        style={{ fontFamily: "Poppins, sans-serif" }}
+      >
         <Link to="/">
-          <li className="cursor-pointer hover:text-white transition">Home</li>
+          <li className="cursor-pointer transition-all duration-300 hover:text-white hover:-translate-y-0.5">
+            Home
+          </li>
         </Link>
+
         <Link to="/about">
-          <li className="cursor-pointer hover:text-white transition">About</li>
+          <li className="cursor-pointer transition-all duration-300 hover:text-white hover:-translate-y-0.5">
+            About
+          </li>
         </Link>
+
         <Link to="/products">
-          <li className="cursor-pointer hover:text-white transition">
+          <li className="cursor-pointer transition-all duration-300 hover:text-white hover:-translate-y-0.5">
             Products
           </li>
         </Link>
+
         <Link to="/track-order">
-          <li className="cursor-pointer hover:text-white transition">
+          <li className="cursor-pointer transition-all duration-300 hover:text-white hover:-translate-y-0.5">
             Track Order
           </li>
         </Link>
